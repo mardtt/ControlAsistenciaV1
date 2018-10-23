@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema de Control de Asistencia</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+
+        <h:outputStylesheet library="css" name="principal.css"/>
+
+        <h:form>
+            <b:navBar class="top-nav" brand="ENAP" brand-img="../resources/images/logo_enap.png" 
+                      fluid="true" fixed="top" brand-href="./admin.xhtml">  
+                <div class="hidden-xs" style="text-align: center">
+                    <h:outputText value="Sistema de Control de Asistencía" class="titulo"/>
+                </div>
+
+                <b:navbarLinks pull="right" styleClass="hidden-xs">
+                    <b:dropMenu class="top-link" value="Administrador" iconAwesome="user-circle" style="color:white">
+                        <b:navLink value="Perfíl" href="#"/>
+                        <b:navLink value="Salir" href="#"/>
+                    </b:dropMenu>
+                </b:navbarLinks>
+
+                <b:container id="container-left" class="side-nav">
+                    <b:row style="text-align: center;background-color: #444444">
+                        <h:outputText value="MENÚ PRINCIPAL" class="menutitulo"/>
+                    </b:row>
+                    <b:row>
+                        <b:accordion expanded-panels="menuInfo,menuAgregar">
+                            <b:panel class="side-menu" id="menuInfo" title="Ver Información" iconAwesome="eye">
+                                <b:listLinks class="side-item">
+                                    <b:navCommandLink value="Usuarios" action="#{UsuarioController.btnVerUsuarios()}"/>
+                                    <b:navCommandLink value="Docentes" action="#{UsuarioController.btnVerDocentes()}"/>
+                                    <b:navCommandLink value="Estudiantes" action="#{UsuarioController.btnVerEstudiantes()}"/>
+                                    <b:navCommandLink value="Asignaturas" action="#{UsuarioController.btnVerAsignaturas()}"/>
+                                </b:listLinks>
+                            </b:panel>
+                            <b:panel class="side-menu" id="menuAgregar" title="Formularios" iconAwesome="pencil-square-o">
+                                <b:listLinks class="side-item">
+                                    <b:navCommandLink value="Usuarios" actionListener="#{UsuarioController.btnVerFormUsuario()}"
+                                                      update="@form"/>
+                                    <b:navCommandLink value="Docentes" href="#"/>
+                                    <b:navCommandLink value="Estudiantes" href="#"/>
+                                    <b:navCommandLink value="Asignaturas" href="#"/>                                    
+                                </b:listLinks>
+                            </b:panel>
+                        </b:accordion>
+                    </b:row>
+                </b:container>                
+            </b:navBar>
+            <b:container id="container-right" fluid="true">
+                <b:column col-md="12">
+                    <b:column col-md="2"/>
+                    <b:column col-md="10" offset="2">
+                        <b:row class="row-container-right">
+                            <b:panel>
+                                <h1> <h:outputText value="#{UsuarioController.titulo}"/> </h1>
+                                <hr/>
+                                <b:dataTable value="#{UsuarioController.listaUsuarios}" var="usu" rendered="#{UsuarioController.verTablaUsuarios}">
+                                    <b:dataTableColumn value="#{usu.identificacion}" label="Identificación"/>
+                                    <b:dataTableColumn value="#{usu.nombre}" label="Nombre"/>
+                                    <b:dataTableColumn value="#{usu.apellido}" label="Apellido"/>
+                                    <b:dataTableColumn value="#{usu.tipo}" label="Tipo"/>
+                                    <b:dataTableColumn value="#{usu.email}" label="Email"/>
+                                </b:dataTable>
+                                <b:dataTable value="#{UsuarioController.listaDocentes}" var="doc" rendered="#{UsuarioController.verTablaDocentes}">
+                                    <b:dataTableColumn value="#{doc.docenteID}" label="Identificación"/>
+                                    <b:dataTableColumn value="#{doc.usuario.nombre}" label="Nombre"/>
+                                    <b:dataTableColumn value="#{doc.usuario.apellido}" label="Apellido"/>
+                                    <b:dataTableColumn value="#{doc.usuario.email}" label="Email"/>
+                                    <b:dataTableColumn value="#{doc.tipoDocente}" label="Tipo Docente"/>
+                                    <b:dataTableColumn value="#{doc.facultad}" label="Facultad"/>
+                                </b:dataTable>
+                                <b:dataTable value="#{UsuarioController.listaEstudiantes}" var="estu" rendered="#{UsuarioController.verTablaEstudiantes}">
+                                    <b:dataTableColumn value="#{estu.estudianteID}" label="Identificación"/>
+                                    <b:dataTableColumn value="#{estu.curso}" label="Curso"/>
+                                </b:dataTable>
+                                <b:dataTable value="#{UsuarioController.listaAsignaturas}" var="asig" rendered="#{UsuarioController.verTablaAsignaturas}">
+                                    <b:dataTableColumn value="#{asig.codigo}" label="Código"/>
+                                    <b:dataTableColumn value="#{asig.nombre}" label="Nombre"/>
+                                    <b:dataTableColumn value="#{asig.docente}" label="Docente"/>
+                                    <b:dataTableColumn value="#{asig.nrohoras}" label="Nro. de Horas"/>
+                                    <b:dataTableColumn value="#{asig.edificio}" label="Bloque"/>
+                                    <b:dataTableColumn value="#{asig.aula}" label="Aula"/>
+                                </b:dataTable>
+                                <b:panelGrid columns="2" rendered="#{UsuarioController.verFormUsuario}" >
+                                        <h:outputLabel style="float: right" value="Identificación"/>
+                                        <b:inputText value="#{UsuarioController.saveUsuario.identificacion}" 
+                                                     required="true"/>
+                                        <h:outputLabel style="float: right" value="Contraseña"/>
+                                        <b:inputSecret value="#{UsuarioController.saveUsuario.contrasena}"
+                                                       required="true"/>
+                                        <h:outputLabel style="float: right" value="Tipo"/>
+                                        <b:formGroup>
+                                            <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}">
+                                                <f:selectItem itemLabel="Perfíl" itemValue=""/>
+                                                <f:selectItem itemLabel="Administrador" itemValue="admin"/>
+                                                <f:selectItem itemLabel="Docente" itemValue="docente"/>
+                                                <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
+                                            </b:selectOneMenu>
+                                        </b:formGroup>
+                                        <h:outputLabel style="float: right" value="Nombre"/>
+                                        <b:inputText value="#{UsuarioController.saveUsuario.nombre}" required="true"/>
+                                        <h:outputLabel style="float: right" value="Apellido"/>
+                                        <b:inputText value="#{UsuarioController.saveUsuario.apellido}" required="true"/>
+                                        <h:outputLabel style="float: right" value="E-mail"/>
+                                        <b:inputText value="#{UsuarioController.saveUsuario.email}"
+                                                     required="true"/>
+                                        <b:commandButton value="Guardar" action="#{UsuarioController.guardarUsuario()}" look="primary"/>
+                                    </b:panelGrid>
+                            </b:panel>
+                        </b:row>
+                    </b:column>
+                </b:column>
+            </b:container>
+        </h:form>
+    </h:body>
+</html>

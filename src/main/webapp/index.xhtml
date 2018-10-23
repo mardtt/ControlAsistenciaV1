@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Sistema de Control de Asistencia</title>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="login.css"/>
+        <h:form>
+            <h:message for="btnLogin"/>
+            <b:container fluid="true">
+                <b:row>
+                    <b:panel class="encabezado">
+                        <b:column medium-screen="12">
+                            <h:outputText class="titulo" value="Sistema de Control de Asistencia"/>
+                        </b:column>
+                        <b:column medium-screen="12" class="subtitulo">
+                            <h:outputText value="Escuela Naval Almirante Padilla"/>
+                        </b:column>
+                    </b:panel>
+                </b:row>
+                <b:row style="text-align: center">
+                    <h:graphicImage library="images" name="logo_enap.png" style="height: 174px"/>
+                </b:row>
+                <b:row style="padding-top: 20px">
+                    <b:column medium-screen="4" />
+                    <b:column medium-screen="4">
+                        <b:panel class="panelInicio">
+                            <b:row style="text-align: center">
+                                <h:outputText style="font-weight: bolder" value="Inicio de Sesión"/>
+                            </b:row>
+                            <b:row class="campos">
+                                <b:inputText placeholder="Identificacion" value="#{UsuarioController.usuario.identificacion}" type="number" 
+                                             required="true"/>
+                            </b:row>
+                            <b:row class="campos">
+                                <b:inputSecret placeholder="Contraseña" value="#{UsuarioController.usuario.contrasena}"/>
+                            </b:row>
+                            <b:row class="campos" style="padding-right: 100px">
+                                <h:link value="Restablecer Contraseña"/>                                
+                            </b:row>
+                            <b:row class="contenedorB">
+                                <b:commandButton id="btnLogin" look="primary" value="Entrar" action="#{UsuarioController.login()}"/>
+                            </b:row>
+                        </b:panel>
+                    </b:column>
+                    <b:column medium-screen="4" />
+                </b:row>
+            </b:container>
+        </h:form>
+    </h:body>
+</html>

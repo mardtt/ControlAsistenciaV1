@@ -1,0 +1,53 @@
+/* 
+    Author     : Marco.ENAP
+*/
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url("#{resource['fonts:Roboto-Regular.ttf']}") format('truetype');
+}
+
+body {
+    font-family: 'Roboto-Regular' !important;
+}
+
+.encabezado {
+    background-color: #0844a4 !important;
+    text-align: center;
+    height: 107px;
+    border-color: black;
+}
+
+.titulo {
+    font-weight: bolder;
+    font-size: 24px;
+    color: white !important;
+}
+
+.subtitulo {
+    font-size: 14px; 
+    color: white; 
+    text-decoration: underline;
+}
+
+body .panelInicio {
+    border-style: solid;
+    box-shadow: 1px 1px 5px;
+}
+
+.panelInicio .campos {
+    padding-top: 10px;
+    padding-left: 90px;
+    padding-right: 90px
+}
+.contenedorB {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.contenedorB button {
+    background-color: #0844a4;
+    height: 39px;
+    width: 110px;
+}
+

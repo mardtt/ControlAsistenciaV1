@@ -1,0 +1,170 @@
+/* 
+    Author     : Marco.ENAP
+*/
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url("#{resource['fonts:Roboto-Regular.ttf']}") format('truetype');    
+}
+
+@font-face {    
+    font-family: 'Roboto-Thin';
+    src: url("#{resource['fonts:Roboto-Thin.ttf']}") format('truetype');
+}
+
+@font-face {    
+    font-family: 'Roboto-Black';
+    src: url("#{resource['fonts:Roboto-Black.ttf']}") format('truetype');
+}
+body{
+    font-family: 'Roboto-Regular' !important;
+    padding: 0px !important;
+}
+@media(min-width:768px) {
+    body {
+        margin-top: 70px !important;
+        padding: 0px !important;
+    }
+}
+a{ 
+    text-decoration: none !important;
+}
+#container-left{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+#container-right{
+    width: 100% !important;
+}
+
+.row-container-right {
+    padding-left: 10px;
+}
+
+@media(max-width:1400px) {
+    .row-container-right {
+        padding-left: 50px;
+    }
+}
+
+@media(min-width:768px) {
+    #container-left {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    
+}
+/* Navegacion lateral */
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 107px;
+        left: 0px;
+        background-color: #7a7a7a;
+        bottom: 0;
+        width: 280px !important;
+        z-index: 99;
+    }
+}
+/* Top Navegacion */
+.top-link {
+    color: white !important;
+    font-size: 16px;   
+}
+
+.top-link:hover, .top-link a:focus{
+    color: #f2efef !important;
+    background-color: inherit !important;
+}
+
+.menutitulo {
+    font-size: 16px;
+    color: #aaaaaa;
+    font-family: Roboto-Thin !important;
+}
+
+.top-nav {
+    border: none !important;
+    border-radius: 0px !important;
+    height: 107px;
+    background-color: #0844a4 !important;
+}
+
+.top-nav .titulo {
+    font-family: 'Roboto-Black';
+    color:white;
+    font-size: 24px;
+}
+
+.navbar-brand {
+    font-family: 'Roboto-Black';
+    font-size: 24px !important;
+    color: white !important;
+    padding-right: 94px !important;
+    background-color: #033076;
+    width: 280px;
+    height: 107px !important;
+    text-align: center;
+}
+
+.navbar-brand img {
+    height: 72px;
+    width: 53px;
+}
+
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:focus {
+    background-color: #033076 !important;
+}
+/*
+    Acordeon lateral - menu items
+*/
+.side-menu{
+    border: none !important;
+    border-radius: 0px !important;
+}
+.panel-group .panel-heading {
+    background-color: #444444 !important;
+    color: white !important;
+    border-radius: 0px !important;
+}
+.panel-group .panel-heading:hover {
+    background-color: #2d2d2d !important;
+    color: #fff !important;
+}
+.panel-group .panel + .panel {
+    margin-top: 1px !important;
+}
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #033076 !important;
+    background-color: #aaaaaa!important;
+    padding: 0px !important;
+}
+.side-item > li > a {
+    color: white !important;
+    padding-left: 35px !important;
+}
+.side-item > li > a:hover,
+.side-item > li > a:focus{
+    color: #fff !important;
+    background-color: #7a7a7a !important;
+    border-color: transparent !important;
+    outline-color: #e65042;
+}
+/*
+    Formularios
+*/
+.btn-login{
+    width:100%;
+    background-color: #e65042 !important;
+    color: #fff !important;
+}
+
+.btn-login:hover,
+.btn-login:focus{
+    outline-color: #e65042 !important;
+    border-color: transparent !important;
+}
+.input-focus:focus{
+    border-color: #e65042 !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(169, 69, 33, 0.6) !important;
+}
