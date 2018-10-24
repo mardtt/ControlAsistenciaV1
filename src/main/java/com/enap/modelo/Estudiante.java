@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,6 +36,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e")
     , @NamedQuery(name = "Estudiante.findByEstudianteID", query = "SELECT e FROM Estudiante e WHERE e.estudianteID = :estudianteID")})
 public class Estudiante implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 15)
+    @Column(name = "tipoEstudiante")
+    private String tipoEstudiante;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,6 +132,14 @@ public class Estudiante implements Serializable {
     @Override
     public String toString() {
         return "com.enap.modelo.Estudiante[ estudianteID=" + estudianteID + " ]";
+    }
+
+    public String getTipoEstudiante() {
+        return tipoEstudiante;
+    }
+
+    public void setTipoEstudiante(String tipoEstudiante) {
+        this.tipoEstudiante = tipoEstudiante;
     }
     
 }

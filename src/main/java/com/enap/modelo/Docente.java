@@ -135,7 +135,7 @@ public class Docente implements Serializable {
 
     @Override
     public String toString() {
-        return "com.enap.modelo.Docente[ docenteID=" + docenteID + " ]";
+        return usuario.getNombre() + " " + usuario.getApellido();
     }
-    
+
 }
