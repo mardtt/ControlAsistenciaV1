@@ -61,14 +61,16 @@
                             <b:panel>
                                 <h1> <h:outputText value="#{UsuarioController.titulo}"/> </h1>
                                 <hr/>
-                                <b:dataTable value="#{UsuarioController.listaUsuarios}" var="usu" rendered="#{UsuarioController.verTablaUsuarios}">
+                                <b:dataTable value="#{UsuarioController.listaUsuarios}" var="usu" rendered="#{UsuarioController.verTablaUsuarios}"
+                                             excel="true" pdf="true" copy="true" print="true">
                                     <b:dataTableColumn value="#{usu.identificacion}" label="Identificación"/>
                                     <b:dataTableColumn value="#{usu.nombre}" label="Nombre"/>
                                     <b:dataTableColumn value="#{usu.apellido}" label="Apellido"/>
                                     <b:dataTableColumn value="#{usu.tipo}" label="Tipo"/>
                                     <b:dataTableColumn value="#{usu.email}" label="Email"/>
                                 </b:dataTable>
-                                <b:dataTable value="#{UsuarioController.listaDocentes}" var="doc" rendered="#{UsuarioController.verTablaDocentes}">
+                                <b:dataTable value="#{UsuarioController.listaDocentes}" var="doc" rendered="#{UsuarioController.verTablaDocentes}"
+                                             excel="true" pdf="true" copy="true" print="true">
                                     <b:dataTableColumn value="#{doc.docenteID}" label="Identificación"/>
                                     <b:dataTableColumn value="#{doc.usuario.nombre}" label="Nombre"/>
                                     <b:dataTableColumn value="#{doc.usuario.apellido}" label="Apellido"/>
@@ -76,11 +78,18 @@
                                     <b:dataTableColumn value="#{doc.tipoDocente}" label="Tipo Docente"/>
                                     <b:dataTableColumn value="#{doc.facultad}" label="Facultad"/>
                                 </b:dataTable>
-                                <b:dataTable value="#{UsuarioController.listaEstudiantes}" var="estu" rendered="#{UsuarioController.verTablaEstudiantes}">
+                                <b:dataTable value="#{UsuarioController.listaEstudiantes}" var="estu" rendered="#{UsuarioController.verTablaEstudiantes}"
+                                             excel="true" pdf="true" copy="true" print="true">
                                     <b:dataTableColumn value="#{estu.estudianteID}" label="Identificación"/>
-                                    <b:dataTableColumn value="#{estu.curso}" label="Curso"/>
+                                    <b:dataTableColumn value="#{estu.curso.cursoID}" label="Curso"/>
+                                    <b:dataTableColumn value="#{estu.curso.nombre}" label="Nombre del Curso"/>
+                                    <b:dataTableColumn value="#{estu.usuario.nombre}" label="Nombre"/>
+                                    <b:dataTableColumn value="#{estu.usuario.apellido}" label="Apellido"/>
+                                    <b:dataTableColumn value="#{estu.tipoEstudiante}" label="Tipo de Estudiante"/>
+                                    <b:dataTableColumn value="#{estu.usuario.email}" label="Apellido"/>
                                 </b:dataTable>
-                                <b:dataTable value="#{UsuarioController.listaAsignaturas}" var="asig" rendered="#{UsuarioController.verTablaAsignaturas}">
+                                <b:dataTable value="#{UsuarioController.listaAsignaturas}" var="asig" rendered="#{UsuarioController.verTablaAsignaturas}"
+                                             excel="true" pdf="true" copy="true" print="true">
                                     <b:dataTableColumn value="#{asig.codigo}" label="Código"/>
                                     <b:dataTableColumn value="#{asig.nombre}" label="Nombre"/>
                                     <b:dataTableColumn value="#{asig.docente}" label="Docente"/>
@@ -89,30 +98,30 @@
                                     <b:dataTableColumn value="#{asig.aula}" label="Aula"/>
                                 </b:dataTable>
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormUsuario}" >
-                                        <h:outputLabel style="float: right" value="Identificación"/>
-                                        <b:inputText value="#{UsuarioController.saveUsuario.identificacion}" 
-                                                     required="true"/>
-                                        <h:outputLabel style="float: right" value="Contraseña"/>
-                                        <b:inputSecret value="#{UsuarioController.saveUsuario.contrasena}"
-                                                       required="true"/>
-                                        <h:outputLabel style="float: right" value="Tipo"/>
-                                        <b:formGroup>
-                                            <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}">
-                                                <f:selectItem itemLabel="Perfíl" itemValue=""/>
-                                                <f:selectItem itemLabel="Administrador" itemValue="admin"/>
-                                                <f:selectItem itemLabel="Docente" itemValue="docente"/>
-                                                <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
-                                            </b:selectOneMenu>
-                                        </b:formGroup>
-                                        <h:outputLabel style="float: right" value="Nombre"/>
-                                        <b:inputText value="#{UsuarioController.saveUsuario.nombre}" required="true"/>
-                                        <h:outputLabel style="float: right" value="Apellido"/>
-                                        <b:inputText value="#{UsuarioController.saveUsuario.apellido}" required="true"/>
-                                        <h:outputLabel style="float: right" value="E-mail"/>
-                                        <b:inputText value="#{UsuarioController.saveUsuario.email}"
-                                                     required="true"/>
-                                        <b:commandButton value="Guardar" action="#{UsuarioController.guardarUsuario()}" look="primary"/>
-                                    </b:panelGrid>
+                                    <h:outputLabel style="float: right" value="Identificación"/>
+                                    <b:inputText value="#{UsuarioController.saveUsuario.identificacion}" 
+                                                 required="true"/>
+                                    <h:outputLabel style="float: right" value="Contraseña"/>
+                                    <b:inputSecret value="#{UsuarioController.saveUsuario.contrasena}"
+                                                   required="true"/>
+                                    <h:outputLabel style="float: right" value="Tipo"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}">
+                                            <f:selectItem itemLabel="Perfíl" itemValue=""/>
+                                            <f:selectItem itemLabel="Administrador" itemValue="admin"/>
+                                            <f:selectItem itemLabel="Docente" itemValue="docente"/>
+                                            <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <h:outputLabel style="float: right" value="Nombre"/>
+                                    <b:inputText value="#{UsuarioController.saveUsuario.nombre}" required="true"/>
+                                    <h:outputLabel style="float: right" value="Apellido"/>
+                                    <b:inputText value="#{UsuarioController.saveUsuario.apellido}" required="true"/>
+                                    <h:outputLabel style="float: right" value="E-mail"/>
+                                    <b:inputText value="#{UsuarioController.saveUsuario.email}"
+                                                 required="true"/>
+                                    <b:commandButton value="Guardar" action="#{UsuarioController.guardarUsuario()}" look="primary"/>
+                                </b:panelGrid>
                             </b:panel>
                         </b:row>
                     </b:column>
