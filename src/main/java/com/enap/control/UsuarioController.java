@@ -132,24 +132,33 @@ public class UsuarioController implements Serializable {
     }
 
     public void listarDocentes() {
-        //listaDocentes = docDao.findAll();
-        
+
         try {
-            listaDocentes = docDao.getEm().createQuery("SELECT d FROM Docente d JOIN FETCH d.usuario u ON d.docenteID=u.identificacion", Docente.class).getResultList();
+            //listaDocentes = docDao.getEm().createQuery("SELECT d FROM Docente d JOIN FETCH d.usuario u ON d.docenteID=u.identificacion", Docente.class).getResultList();
+            listaDocentes = docDao.findAll();
         } catch (Exception e) {
-            System.out.println("Error listar docentes:\n"+e.getMessage());
+            System.out.println("Error listar docentes:\n" + e.getMessage());
         }
     }
 
     public void listarEstudiantes() {
-        listaEstudiantes = estDao.findAll();
+        try {
+            //listaEstudiantes = estDao.getEm().createQuery("SELECT e FROM Estudiante e JOIN FETCH e.usuario u ON e.estudianteID=u.identificacion").getResultList();
+            listaEstudiantes = estDao.findAll();
+        } catch (Exception e) {
+            System.out.println("Error listar estudiantes:\n" + e.getMessage());
+        }
     }
 
     public void listarAsignaturas() {
-        listaAsignaturas = asDao.findAll();
+        try {
+            listaAsignaturas = asDao.findAll();
+        } catch (Exception e) {
+            System.out.println("Error listar asignaturas:\n" + e.getMessage());
+        }
     }
 
-    public void btnVerFormUsuario() {        
+    public void btnVerFormUsuario() {
         verTablaUsuarios = false;
         verTablaEstudiantes = false;
         verTablaDocentes = false;
