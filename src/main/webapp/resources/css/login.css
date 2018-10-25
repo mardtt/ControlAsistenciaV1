@@ -45,9 +45,16 @@ body .panelInicio {
     text-align: center;
 }
 
-.contenedorB button {
+.contenedorB .btnLogin {
     background-color: #0844a4;
+    color: #fff;
     height: 39px;
     width: 110px;
+}
+
+.btnLogin:hover,
+.btnLogin:focus {
+    background-color: #022f77 !important;
+    color: #fff !important;
 }
 

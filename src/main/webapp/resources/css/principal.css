@@ -153,16 +153,15 @@ a{
 /*
     Formularios
 */
-.btn-login{
-    width:100%;
-    background-color: #e65042 !important;
-    color: #fff !important;
+.btn-form{
+    background-color: #0844a4;
+    color: #fff;
 }
 
-.btn-login:hover,
-.btn-login:focus{
-    outline-color: #e65042 !important;
-    border-color: transparent !important;
+.btn-form:hover,
+.btn-form:focus{
+    background-color: #022f77 !important;
+    color: #fff !important;
 }
 .input-focus:focus{
     border-color: #e65042 !important;

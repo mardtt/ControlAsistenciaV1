@@ -97,6 +97,7 @@
                                     <b:dataTableColumn value="#{asig.edificio}" label="Bloque"/>
                                     <b:dataTableColumn value="#{asig.aula}" label="Aula"/>
                                 </b:dataTable>
+                                
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormUsuario}" >
                                     <h:outputLabel style="float: right" value="Identificación"/>
                                     <b:inputText value="#{UsuarioController.saveUsuario.identificacion}" 
@@ -104,15 +105,7 @@
                                     <h:outputLabel style="float: right" value="Contraseña"/>
                                     <b:inputSecret value="#{UsuarioController.saveUsuario.contrasena}"
                                                    required="true"/>
-                                    <h:outputLabel style="float: right" value="Tipo"/>
-                                    <b:formGroup>
-                                        <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}">
-                                            <f:selectItem itemLabel="Perfíl" itemValue=""/>
-                                            <f:selectItem itemLabel="Administrador" itemValue="admin"/>
-                                            <f:selectItem itemLabel="Docente" itemValue="docente"/>
-                                            <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
-                                        </b:selectOneMenu>
-                                    </b:formGroup>
+                                    
                                     <h:outputLabel style="float: right" value="Nombre"/>
                                     <b:inputText value="#{UsuarioController.saveUsuario.nombre}" required="true"/>
                                     <h:outputLabel style="float: right" value="Apellido"/>
@@ -120,7 +113,61 @@
                                     <h:outputLabel style="float: right" value="E-mail"/>
                                     <b:inputText value="#{UsuarioController.saveUsuario.email}"
                                                  required="true"/>
-                                    <b:commandButton value="Guardar" action="#{UsuarioController.guardarUsuario()}" look="primary"/>
+                                    <h:outputLabel style="float: right" value="Tipo de Usuario"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}" onchange="ajax:UsuarioController.opcionesFormUsuario();"
+                                                         update="@form">
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItem itemLabel="Administrador" itemValue="admin"/>
+                                            <f:selectItem itemLabel="Docente" itemValue="docente"/>
+                                            <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
+                                            <f:selectItem itemLabel="Estudiante" itemValue="estudiante"/>
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <b:commandButton value="Registrar" action="#{UsuarioController.crearUsuario()}" class="btn-form"
+                                                     rendered="#{UsuarioController.verBtnRegUsuario}" style="float: right"/>
+                                </b:panelGrid>
+                                
+                                <b:panelGrid columns="2" rendered="#{UsuarioController.verFormDocente}">
+                                    <h:outputLabel style="float: right" value="Tipo de Docente"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#{UsuarioController.docente.tipoDocente}">
+                                            <f:selectItem itemLabel="Catedra" itemValue="Catedra" />
+                                            <f:selectItem itemLabel="Orientador" itemValue="Orientador" />
+                                            <f:selectItem itemLabel="Militar" itemValue="Militar" />
+                                            <f:selectItem itemLabel="Docente OC" itemValue="DocenteOC" />
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <h:outputLabel style="float: right" value="Facultad"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#{UsuarioController.docente.facultad}">
+                                            <f:selectItem itemLabel="Administración" itemValue="Administración" />
+                                            <f:selectItem itemLabel="Ciencias Navales" itemValue="Ciencias Navales" />
+                                            <f:selectItem itemLabel="Ciencias Náuticas" itemValue="Ciencias Náuticas" />
+                                            <f:selectItem itemLabel="Ingeniería" itemValue="Ingeniería" />
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <b:commandButton value="Registrar" action="#{UsuarioController.crearDocente()}" class="btn-form"
+                                                     style="float: right"/>
+                                </b:panelGrid>
+                                
+                                <b:panelGrid columns="2" rendered="#{UsuarioController.verFormEstudiante}">
+                                    <h:outputLabel style="float: right" value="Curso"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu>
+                                            <f:selectItem itemLabel="101" itemValue="101" />
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <h:outputLabel style="float: right" value="Tipo de Estudiante"/>
+                                    <b:formGroup>
+                                        <b:selectOneMenu #{UsuarioController.estudiante.tipoEstudiante}>
+                                            <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                                            <f:selectItem itemLabel="Comandante de Curso #1" itemValue="cdecurso1" />
+                                            <f:selectItem itemLabel="Comandante de Curso #2" itemValue="cdecurso2" />
+                                            <f:selectItem itemLabel="Comandante de Curso #3" itemValue="cdecurso3" />
+                                        </b:selectOneMenu>                                        
+                                    </b:formGroup>
+                                    <b:commandButton value="Registrar" look="primary" class="btn-form"/>
                                 </b:panelGrid>
                             </b:panel>
                         </b:row>
