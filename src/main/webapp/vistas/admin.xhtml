@@ -152,22 +152,23 @@
                                 </b:panelGrid>
                                 
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormEstudiante}">
-                                    <h:outputLabel style="float: right" value="Curso"/>
                                     <b:formGroup>
-                                        <b:selectOneMenu>
-                                            <f:selectItem itemLabel="101" itemValue="101" />
+                                        <b:selectOneMenu value="#{UsuarioController.estudiante.curso}">
+                                            <f:selectItems value="#{UsuarioController.listaCurso}" var="cur" itemLabel="#{cur.nombre}" itemValue="#{cur}" />
                                         </b:selectOneMenu>
                                     </b:formGroup>
-                                    <h:outputLabel style="float: right" value="Tipo de Estudiante"/>
+                                    
+                                   <h:outputLabel style="float: right" value="Tipo de Estudiante"/>
                                     <b:formGroup>
-                                        <b:selectOneMenu #{UsuarioController.estudiante.tipoEstudiante}>
-                                            <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                                        <b:selectOneMenu value="#{UsuarioController.estudiante.tipoEstudiante}">
+                                            <f:selectItem itemLabel="Estudiante" itemValue="Estudiante"  />
                                             <f:selectItem itemLabel="Comandante de Curso #1" itemValue="cdecurso1" />
                                             <f:selectItem itemLabel="Comandante de Curso #2" itemValue="cdecurso2" />
                                             <f:selectItem itemLabel="Comandante de Curso #3" itemValue="cdecurso3" />
                                         </b:selectOneMenu>                                        
                                     </b:formGroup>
-                                    <b:commandButton value="Registrar" look="primary" class="btn-form"/>
+                                    <b:commandButton value="Registrar" action="#{UsuarioController.crearEstudiante()}" class="btn-form"
+                                                     style="float: right"/>
                                 </b:panelGrid>
                             </b:panel>
                         </b:row>
