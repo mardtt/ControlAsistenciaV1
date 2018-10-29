@@ -68,7 +68,7 @@ public class UsuarioController implements Serializable {
     private boolean verFormUsuario;
     private boolean verFormDocente;
     private boolean verFormEstudiante;
-    private boolean verFormCdecurso;
+    private boolean verFormAsignaturas;
     private boolean verBtnRegUsuario;
     private String titulo;
 
@@ -77,6 +77,7 @@ public class UsuarioController implements Serializable {
         saveUsuario = new Usuario();
         asDao = new AsignaturaDao();
         docDao = new DocenteDao();
+        cursoDao = new CursoDao();
         usuario = new Usuario();
         docente = new Docente();
         estudiante = new Estudiante();
@@ -109,7 +110,7 @@ public class UsuarioController implements Serializable {
         verTablaAsignaturas = false;
         verTablaEstudiantes = false;
         verTablaDocentes = false;
-        verFormUsuario = false;
+        noVerForms();
         verTablaUsuarios = true;
         listarUsuarios();
     }
@@ -119,7 +120,7 @@ public class UsuarioController implements Serializable {
         verTablaAsignaturas = false;
         verTablaEstudiantes = false;
         verTablaUsuarios = false;
-        verFormUsuario = false;
+        noVerForms();
         verTablaDocentes = true;
         listarDocentes();
     }
@@ -129,7 +130,7 @@ public class UsuarioController implements Serializable {
         verTablaAsignaturas = false;
         verTablaDocentes = false;
         verTablaUsuarios = false;
-        verFormUsuario = false;
+        noVerForms();
         verTablaEstudiantes = true;
         listarEstudiantes();
     }
@@ -139,7 +140,7 @@ public class UsuarioController implements Serializable {
         verTablaUsuarios = false;
         verTablaEstudiantes = false;
         verTablaDocentes = false;
-        verFormUsuario = false;
+        noVerForms();
         verTablaAsignaturas = true;
         listarAsignaturas();
     }
@@ -176,41 +177,61 @@ public class UsuarioController implements Serializable {
     }
 
     public void opcionesFormUsuario() {
-        switch (saveUsuario.getTipo()) {
-            case "docente":
-                verBtnRegUsuario = false;
-                verFormCdecurso = false;
-                verFormEstudiante = false;
-                verFormDocente = true;
-                break;
-            case "estudiante":
-                verBtnRegUsuario = false;
-                verFormCdecurso = false;
-                verFormDocente = false;
-                verFormEstudiante = true;
-                break;
-            case "cdecurso":
-                verBtnRegUsuario = false;
-                verFormDocente = false;
-                verFormEstudiante = false;
-                verFormCdecurso = true;
-                break;
-            default:
-                verFormDocente = false;
-                verFormEstudiante = false;
-                verFormCdecurso = false;
-                verBtnRegUsuario = true;
-                break;
+        if (verFormUsuario == true) {
+            switch (saveUsuario.getTipo()) {
+                case "docente":
+                    verBtnRegUsuario = false;
+                    verFormAsignaturas = false;
+                    verFormEstudiante = false;
+                    verFormDocente = true;
+                    break;
+                case "estudiante":
+                    verBtnRegUsuario = false;
+                    verFormAsignaturas = false;
+                    verFormDocente = false;
+                    verFormEstudiante = true;
+                    break;
+                default:
+                    verFormDocente = false;
+                    verFormEstudiante = false;
+                    verFormAsignaturas = false;
+                    verBtnRegUsuario = true;
+                    break;
+            }
         }
     }
 
     public void btnVerFormUsuario() {
-        verTablaUsuarios = false;
-        verTablaEstudiantes = false;
-        verTablaDocentes = false;
-        verTablaAsignaturas = false;
+        noVerTablas();
+        listarCursos();
+        verFormAsignaturas = false;
         verFormUsuario = true;
         titulo = "Crear Usuario";
+    }
+    
+    public void btnVerFormAsignatura() {
+        noVerTablas();
+        listarCursos();
+        listarDocentes();
+        verFormDocente = false;
+        verFormEstudiante = false;
+        verFormUsuario = false;
+        verFormAsignaturas = true;
+        titulo = "Añadir Asignatura";
+    }
+    
+    public void noVerTablas() {
+        verTablaAsignaturas = false;
+        verTablaDocentes = false;
+        verTablaEstudiantes = false;
+        verTablaUsuarios = false;
+    }
+    
+    public void noVerForms() {
+        verFormUsuario = false;
+        verFormAsignaturas = false;
+        verFormDocente = false;
+        verFormEstudiante = false;
     }
 
     public void crearUsuario() {
@@ -243,18 +264,18 @@ public class UsuarioController implements Serializable {
     public void crearEstudiante() {
         try {
             estudiante.setUsuario(saveUsuario);
-            System.out.println(estudiante.getUsuario().getIdentificacion());
-            System.out.println(estudiante.getUsuario().getNombre());
-            System.out.println(estudiante.getUsuario().getApellido());
-            System.out.println(estudiante.getCurso().getCursoID());
-            System.out.println(estudiante.getCurso().getNombre());
+            us.create(saveUsuario);
+            estudiante.setEstudianteID(saveUsuario.getIdentificacion());
+            estDao.create(estudiante);
         } catch (Exception e) {
             System.out.println("Error al crear usuario estudiante:\n" + e.getMessage());
         }
+
+        saveUsuario = new Usuario();
+        estudiante = new Estudiante();
     }
 
     public void listarCursos() {
-        cursoDao = new CursoDao();
         listaCurso = cursoDao.findAll();
     }
 
@@ -429,12 +450,12 @@ public class UsuarioController implements Serializable {
         return verFormEstudiante;
     }
 
-    public void setVerFormCdecurso(boolean verFormCdecurso) {
-        this.verFormCdecurso = verFormCdecurso;
+    public void setVerFormAsignaturas(boolean verFormCdecurso) {
+        this.verFormAsignaturas = verFormCdecurso;
     }
 
-    public boolean isVerFormCdecurso() {
-        return verFormCdecurso;
+    public boolean isVerFormAsignaturas() {
+        return verFormAsignaturas;
     }
 
     public void setVerBtnRegUsuario(boolean verBtnRegUsuario) {
