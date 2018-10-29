@@ -44,9 +44,8 @@
                                 <b:listLinks class="side-item">
                                     <b:navCommandLink value="Usuarios" actionListener="#{UsuarioController.btnVerFormUsuario()}"
                                                       update="@form"/>
-                                    <b:navCommandLink value="Docentes" href="#"/>
-                                    <b:navCommandLink value="Estudiantes" href="#"/>
-                                    <b:navCommandLink value="Asignaturas" href="#"/>                                    
+                                    <b:navCommandLink value="Cursos"  href="#"/>
+                                    <b:navCommandLink value="Asignaturas" actionListener="#{UsuarioController.btnVerFormAsignatura()}" update="@form"/>                                    
                                 </b:listLinks>
                             </b:panel>
                         </b:accordion>
@@ -120,7 +119,6 @@
                                             <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                             <f:selectItem itemLabel="Administrador" itemValue="admin"/>
                                             <f:selectItem itemLabel="Docente" itemValue="docente"/>
-                                            <f:selectItem itemLabel="Comandante de Curso" itemValue="cdecurso"/>
                                             <f:selectItem itemLabel="Estudiante" itemValue="estudiante"/>
                                         </b:selectOneMenu>
                                     </b:formGroup>
@@ -152,12 +150,12 @@
                                 </b:panelGrid>
                                 
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormEstudiante}">
+                                    <h:outputLabel style="float: right" value="Curso"/>
                                     <b:formGroup>
                                         <b:selectOneMenu value="#{UsuarioController.estudiante.curso}">
-                                            <f:selectItems value="#{UsuarioController.listaCurso}" var="cur" itemLabel="#{cur.nombre}" itemValue="#{cur}" />
+                                            <f:selectItems value="#{UsuarioController.listaCurso}" var="curso" itemLabel="#{curso.cursoID}-#{curso.nombre}" itemValue="#{curso}"/>
                                         </b:selectOneMenu>
                                     </b:formGroup>
-                                    
                                    <h:outputLabel style="float: right" value="Tipo de Estudiante"/>
                                     <b:formGroup>
                                         <b:selectOneMenu value="#{UsuarioController.estudiante.tipoEstudiante}">
@@ -169,6 +167,30 @@
                                     </b:formGroup>
                                     <b:commandButton value="Registrar" action="#{UsuarioController.crearEstudiante()}" class="btn-form"
                                                      style="float: right"/>
+                                </b:panelGrid>
+                                
+                                <b:panelGrid columns="1" rendered="#{UsuarioController.verFormAsignaturas}">
+                                    <b:inputText label="Nombre" />
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#" label="Facultad">
+                                            <f:selectItem itemLabel="Administración" itemValue="Administración" />
+                                            <f:selectItem itemLabel="Ciencias Navales" itemValue="Ciencias Navales" />
+                                            <f:selectItem itemLabel="Ciencias Náuticas" itemValue="Ciencias Náuticas" />
+                                            <f:selectItem itemLabel="Ingeniería" itemValue="Ingeniería" />
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#" label="Curso">
+                                            <f:selectItems value="#{UsuarioController.listaCurso}" var="cur" itemLabel="#{cur.cursoID}-#{cur.nombre}" itemValue="#{cur}"/>
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <b:formGroup>
+                                        <b:selectOneMenu value="#" label="Docente">
+                                            <f:selectItems value="#{UsuarioController.listaDocentes}" var="docente" itemLabel="#{docente.usuario.nombre} #{docente.usuario.apellido}" itemValue="#{docente}"/>
+                                        </b:selectOneMenu>
+                                    </b:formGroup>
+                                    <b:inputText label="Nro. Horas" type="number"/>
+                                    <b:commandButton value="Añadir" class="btn-form"/>
                                 </b:panelGrid>
                             </b:panel>
                         </b:row>
