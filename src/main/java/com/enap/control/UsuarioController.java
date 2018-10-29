@@ -1,10 +1,12 @@
 package com.enap.control;
 
 import com.enap.dao.AsignaturaDao;
+import com.enap.dao.CursoDao;
 import com.enap.dao.DocenteDao;
 import com.enap.dao.EstudianteDao;
 import com.enap.dao.UsuarioDao;
 import com.enap.modelo.Asignatura;
+import com.enap.modelo.Curso;
 import com.enap.modelo.Docente;
 import com.enap.modelo.Estudiante;
 import com.enap.modelo.Usuario;
@@ -34,6 +36,8 @@ public class UsuarioController implements Serializable {
     private DocenteDao docDao;
     @Inject
     private EstudianteDao estDao;
+    @Inject
+    private CursoDao cursoDao;
 
 //    ||||||||||||||||||||||||||||||||||
 //    ||           Colecciones        ||
@@ -42,6 +46,7 @@ public class UsuarioController implements Serializable {
     private List<Docente> listaDocentes;
     private List<Estudiante> listaEstudiantes;
     private List<Asignatura> listaAsignaturas;
+    private List<Curso> listaCurso;
 
 //    ||||||||||||||||||||||||||||||||||
 //    ||        Objetos de negocio    ||
@@ -51,6 +56,7 @@ public class UsuarioController implements Serializable {
     private Asignatura asignatura;
     private Docente docente;
     private Estudiante estudiante;
+    private Curso curso;
 
 //||||||||||||||||||||||||||||||||||
 //||     Variables de Control     ||
@@ -75,6 +81,7 @@ public class UsuarioController implements Serializable {
         docente = new Docente();
         estudiante = new Estudiante();
         asignatura = new Asignatura();
+        curso = new Curso();
         titulo = "Panel Principal";
         verBtnRegUsuario = true;
         //listarUsuarios();
@@ -232,9 +239,23 @@ public class UsuarioController implements Serializable {
         saveUsuario = new Usuario();
         docente = new Docente();
     }
-    
+
     public void crearEstudiante() {
-        
+        try {
+            estudiante.setUsuario(saveUsuario);
+            System.out.println(estudiante.getUsuario().getIdentificacion());
+            System.out.println(estudiante.getUsuario().getNombre());
+            System.out.println(estudiante.getUsuario().getApellido());
+            System.out.println(estudiante.getCurso().getCursoID());
+            System.out.println(estudiante.getCurso().getNombre());
+        } catch (Exception e) {
+            System.out.println("Error al crear usuario estudiante:\n" + e.getMessage());
+        }
+    }
+
+    public void listarCursos() {
+        cursoDao = new CursoDao();
+        listaCurso = cursoDao.findAll();
     }
 
 //    ||||||||||||||||||||||||||||||||||
@@ -424,4 +445,19 @@ public class UsuarioController implements Serializable {
         return verBtnRegUsuario;
     }
 
+    public List<Curso> getListaCurso() {
+        return listaCurso;
+    }
+
+    public void setListaCurso(List<Curso> listaCurso) {
+        this.listaCurso = listaCurso;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
 }
