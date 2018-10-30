@@ -56,6 +56,7 @@ public class UsuarioController implements Serializable {
     private Asignatura asignatura;
     private Docente docente;
     private Estudiante estudiante;
+    //private Estudiante estudianteEditado;
     private Curso curso;
 
 //||||||||||||||||||||||||||||||||||
@@ -211,7 +212,6 @@ public class UsuarioController implements Serializable {
     
     public void btnVerFormAsignatura() {
         noVerTablas();
-        listarCursos();
         listarDocentes();
         verFormDocente = false;
         verFormEstudiante = false;
@@ -274,9 +274,26 @@ public class UsuarioController implements Serializable {
         saveUsuario = new Usuario();
         estudiante = new Estudiante();
     }
+    
+    public void crearAsignatura() {
+        try {
+        asDao.create(asignatura);
+        } catch (Exception e) {
+            System.out.println("Error al añadir la asignatura:\n" + e.getMessage());
+        }
+        asignatura = new Asignatura();
+    }
 
     public void listarCursos() {
         listaCurso = cursoDao.findAll();
+    }
+    
+    // Optimizar este metodo para no tener que hace una consulta a la bd para traer los datos de un estudiante seleccionado
+    // en la tabla
+    public void pasarDatosEstudiante(Long id) {
+        Query consulta = estDao.getEm().createNamedQuery("Estudiante.findByEstudianteID");
+        consulta.setParameter("estudianteID", id);
+        estudiante = (Estudiante) consulta.getSingleResult();
     }
 
 //    ||||||||||||||||||||||||||||||||||
