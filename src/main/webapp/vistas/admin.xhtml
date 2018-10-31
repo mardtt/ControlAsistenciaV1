@@ -13,7 +13,9 @@
 
         <h:outputStylesheet library="css" name="principal.css"/>
 
-        <h:form>
+        <h:form id="formPrincipal">
+            <b:growl id="mensajes" placementFrom="top" allowDismiss="true" delay="10000" escape="true" show-detail="true" show-summary="false"/>
+
             <b:navBar class="top-nav" brand="ENAP" brand-img="../resources/images/logo_enap.png" 
                       fluid="true" fixed="top" brand-href="./admin.xhtml">  
                 <div class="hidden-xs" style="text-align: center">
@@ -44,9 +46,9 @@
                             <b:panel class="side-menu" id="menuAgregar" title="Formularios" iconAwesome="pencil-square-o">
                                 <b:listLinks class="side-item">
                                     <b:navCommandLink value="Usuarios" actionListener="#{UsuarioController.btnVerFormUsuario()}"
-                                                      update="@form"/>
+                                                      update="formPrincipal"/>
                                     <b:navCommandLink value="Cursos"  href="#"/>
-                                    <b:navCommandLink value="Asignaturas" actionListener="#{UsuarioController.btnVerFormAsignatura()}" update="@form"/>                                    
+                                    <b:navCommandLink value="Asignaturas" actionListener="#{UsuarioController.btnVerFormAsignatura()}" update="formPrincipal"/>                                    
                                 </b:listLinks>
                             </b:panel>
                         </b:accordion>
@@ -68,6 +70,13 @@
                                     <b:dataTableColumn value="#{usu.apellido}" label="Apellido"/>
                                     <b:dataTableColumn value="#{usu.tipo}" label="Tipo"/>
                                     <b:dataTableColumn value="#{usu.email}" label="Email"/>
+                                    <b:dataTableColumn label="Editar" orderable="false" contentStyle="text-align:center">
+                                        <b:commandButton icon="edit" ajax="true" update="formModalUsuario:editarUsuario"  
+                                                         oncomplete="$('.modalActualizarUsu').modal('show')" actionListener="#{UsuarioController.pasarDatosUsuario(usu)}"/>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Eliminar" orderable="false" contentStyle="text-align:center">
+                                        <b:commandButton icon="remove" ajax="true" update="formPrincipal" actionListener="#{UsuarioController.eliminarUsuario(usu)}"/>
+                                    </b:dataTableColumn>
                                 </b:dataTable>
                                 <b:dataTable value="#{UsuarioController.listaDocentes}" var="doc" rendered="#{UsuarioController.verTablaDocentes}"
                                              excel="true" pdf="true" copy="true" print="true">
@@ -88,24 +97,12 @@
                                     <b:dataTableColumn value="#{estu.tipoEstudiante}" label="Tipo de Estudiante"/>
                                     <b:dataTableColumn value="#{estu.usuario.email}" label="Email"/>
                                     <b:dataTableColumn label="Editar">
-                                        <b:commandButton icon="edit" ajax="true" update="@form" oncomplete="$('.modalPseudoClass').modal('show')" actionListener="#{UsuarioController.pasarDatosEstudiante(estu.estudianteID)}"/>
+                                        <b:commandButton icon="edit" ajax="true" update="formModalStudent:editarStudent"  oncomplete="$('.modalActualizarEstu').modal('show')" actionListener="#{UsuarioController.pasarDatosEstudiante(estu)}"/>
                                     </b:dataTableColumn>
                                 </b:dataTable>
-                                
-                                <b:modal id="editarStudent" title="Editar Estudiante" styleClass="modalPseudoClass">
-                                    <b:panelGrid columns="1">
-                                        <b:inputText value="#{UsuarioController.estudiante.estudianteID}" label="Identificación"/>
-                                        <b:inputText value="#{UsuarioController.estudiante.curso.cursoID}" label="Curso"/>
-                                        <b:inputText value="#{UsuarioController.estudiante.usuario.nombre}" label="Nombre"/>
-                                        <b:inputText value="#{UsuarioController.estudiante.usuario.apellido}" label="Apellido"/>
-                                        <b:inputText value="#{UsuarioController.estudiante.usuario.email}" label="Email"/>
-                                        <b:inputText value="#{UsuarioController.estudiante.tipoEstudiante}" label="Tipo Estudiante"/>
-                                    </b:panelGrid>
-                                    <f:facet name="footer">
-                                        <b:button value="Cancelar" dismiss="modal" look="danger"/>
-                                    </f:facet>
-                                </b:modal>
-                                
+
+
+
                                 <b:dataTable value="#{UsuarioController.listaAsignaturas}" var="asig" rendered="#{UsuarioController.verTablaAsignaturas}"
                                              excel="true" pdf="true" copy="true" print="true">
                                     <b:dataTableColumn value="#{asig.codigo}" label="Código"/>
@@ -115,7 +112,7 @@
                                     <b:dataTableColumn value="#{asig.edificio}" label="Bloque"/>
                                     <b:dataTableColumn value="#{asig.aula}" label="Aula"/>
                                 </b:dataTable>
-                                
+
                                 <!--    ||||||||||||||||||||||||||||||||||
                                         ||    Formulario Usuarios       ||
                                         ||||||||||||||||||||||||||||||||||
@@ -139,7 +136,7 @@
                                     <h:outputLabel style="float: right" value="Tipo de Usuario"/>
                                     <b:formGroup>
                                         <b:selectOneMenu value="#{UsuarioController.saveUsuario.tipo}" onchange="ajax:UsuarioController.opcionesFormUsuario();"
-                                                         update="@form">
+                                                         update="formPrincipal">
                                             <f:selectItem itemLabel="Seleccione" itemValue=""/>
                                             <f:selectItem itemLabel="Administrador" itemValue="admin"/>
                                             <f:selectItem itemLabel="Docente" itemValue="docente"/>
@@ -149,9 +146,9 @@
                                     <b:commandButton value="Registrar" action="#{UsuarioController.crearUsuario()}" class="btn-form"
                                                      rendered="#{UsuarioController.verBtnRegUsuario}" style="float: right"/>
                                 </b:panelGrid>
-                                
+
                                 <!-- ****Formulario Docentes - Usuario**** -->
-                                
+
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormDocente}">
                                     <h:outputLabel style="float: right" value="Tipo de Docente"/>
                                     <b:formGroup>
@@ -176,7 +173,7 @@
                                 </b:panelGrid>
 
                                 <!-- ****Formulario Estudiante - Usuario**** -->
-                                
+
                                 <b:panelGrid columns="2" rendered="#{UsuarioController.verFormEstudiante}">
                                     <h:outputLabel style="float: right" value="Curso"/>
                                     <b:formGroup>
@@ -201,11 +198,11 @@
                                         ||    Formulario Curso          ||
                                         ||||||||||||||||||||||||||||||||||
                                 -->
-                                
+
                                 <b:panelGrid columns="1">
-                                    
+
                                 </b:panelGrid>
-                                
+
                                 <!--    ||||||||||||||||||||||||||||||||||
                                         ||    Formulario Asignaturas    ||
                                         ||||||||||||||||||||||||||||||||||
@@ -236,13 +233,47 @@
                                             <f:selectItem itemLabel="401" itemValue="401"/>
                                         </b:selectOneMenu>
                                     </b:formGroup>
-                                    <b:commandButton value="Añadir" action="#{UsuarioController.crearAsignatura()}" class="btn-form"/>
+                                    <b:commandButton value="Añadir" actionListener="#{UsuarioController.crearAsignatura()}" class="btn-form"/>
                                 </b:panelGrid>
                             </b:panel>
                         </b:row>
                     </b:column>
                 </b:column>
             </b:container>
+        </h:form>
+        <h:form id="formModalStudent">
+            <b:modal id="editarStudent" title="Editar Estudiante" styleClass="modalActualizarEstu" backdrop="false" closable="false">
+                <b:panelGrid columns="1">
+                    <b:inputText value="#{UsuarioController.estudiante.estudianteID}" label="Identificación"/>
+                    <b:inputText value="#{UsuarioController.estudiante.curso.cursoID}" label="Curso"/>
+                    <b:inputText value="#{UsuarioController.estudiante.usuario.nombre}" label="Nombre"/>
+                    <b:inputText value="#{UsuarioController.estudiante.usuario.apellido}" label="Apellido"/>
+                    <b:inputText value="#{UsuarioController.estudiante.usuario.email}" label="Email"/>
+                    <b:inputText value="#{UsuarioController.estudiante.tipoEstudiante}" label="Tipo Estudiante"/>
+                </b:panelGrid>
+                <f:facet name="footer">
+                    <b:commandButton value="Aceptar" class="btn-form" actionListener="#{UsuarioController.editarEstudiante()}" update="formPrincipal"
+                                     ajax="true" onsuccess="$('.modalActualizarEstu').modal('hide')"/>
+                    <b:button value="Cancelar" dismiss="modal" look="danger"/>
+                </f:facet>
+            </b:modal>
+        </h:form>
+
+        <h:form id="formModalUsuario">
+            <b:modal id="editarUsuario" title="Editar Usuario" styleClass="modalActualizarUsu" backdrop="false" closable="false">
+                <b:panelGrid columns="1">
+                    <b:inputText value="#{UsuarioController.usuario.identificacion}" label="Identificación"/>
+                    <b:inputText value="#{UsuarioController.usuario.nombre}" label="Nombre"/>
+                    <b:inputText value="#{UsuarioController.usuario.apellido}" label="Apellido"/>
+                    <b:inputText value="#{UsuarioController.usuario.tipo}" label="Tipo de Usuario"/>
+                    <b:inputText value="#{UsuarioController.usuario.email}" label="Email"/>
+                </b:panelGrid>
+                <f:facet name="footer">
+                    <b:commandButton value="Aceptar" class="btn-form" actionListener="#{UsuarioController.editarUsuario()}" update="formPrincipal"
+                                     ajax="true" onsuccess="$('.modalActualizarUsu').modal('hide')"/>
+                    <b:button value="Cancelar" dismiss="modal" look="danger"/>
+                </f:facet>
+            </b:modal>
         </h:form>
     </h:body>
 </html>
