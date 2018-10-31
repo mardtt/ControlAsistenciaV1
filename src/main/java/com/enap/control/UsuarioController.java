@@ -1,5 +1,6 @@
 package com.enap.control;
 
+import com.enap.control.util.JsfUtil;
 import com.enap.dao.AsignaturaDao;
 import com.enap.dao.CursoDao;
 import com.enap.dao.DocenteDao;
@@ -59,6 +60,7 @@ public class UsuarioController implements Serializable {
     //private Estudiante estudianteEditado;
     private Curso curso;
 
+    JsfUtil utilJsf;
 //||||||||||||||||||||||||||||||||||
 //||     Variables de Control     ||
 //||||||||||||||||||||||||||||||||||
@@ -72,6 +74,7 @@ public class UsuarioController implements Serializable {
     private boolean verFormAsignaturas;
     private boolean verBtnRegUsuario;
     private String titulo;
+    private String mensajes;
 
     public UsuarioController() {
         us = new UsuarioDao();
@@ -86,6 +89,7 @@ public class UsuarioController implements Serializable {
         curso = new Curso();
         titulo = "Panel Principal";
         verBtnRegUsuario = true;
+        utilJsf = new JsfUtil();
         //listarUsuarios();
     }
 
@@ -209,7 +213,7 @@ public class UsuarioController implements Serializable {
         verFormUsuario = true;
         titulo = "Crear Usuario";
     }
-    
+
     public void btnVerFormAsignatura() {
         noVerTablas();
         listarDocentes();
@@ -219,14 +223,14 @@ public class UsuarioController implements Serializable {
         verFormAsignaturas = true;
         titulo = "Añadir Asignatura";
     }
-    
+
     public void noVerTablas() {
         verTablaAsignaturas = false;
         verTablaDocentes = false;
         verTablaEstudiantes = false;
         verTablaUsuarios = false;
     }
-    
+
     public void noVerForms() {
         verFormUsuario = false;
         verFormAsignaturas = false;
@@ -246,8 +250,39 @@ public class UsuarioController implements Serializable {
         saveUsuario = new Usuario();
     }
 
-    public void crearDocente() {
+    public void pasarDatosUsuario(Usuario usu) {
+        usuario = new Usuario();
+        usuario = usu;
+        //usuario = listaUsuarios.get(listaUsuarios.indexOf(usu));
+    }
 
+    public void editarUsuario() {
+        try {
+            us.edit(usuario);
+            mensajes = "Usuario Actualizado";
+            utilJsf.addSuccessMessage(mensajes);
+            System.out.println("Usuario Actualizado");
+        } catch (Exception e) {
+            mensajes = "Error al actualizar el usuario";
+            utilJsf.addErrorMessage(mensajes);
+            System.out.println("Error al actualizar el usuario:\n" + e.getMessage());
+        }
+        usuario = new Usuario();
+    }
+    
+    public void eliminarUsuario(Usuario usu) {
+        try {
+            us.remove(usu);
+            mensajes = "Usuario eliminado correctamente";
+            utilJsf.addSuccessMessage(mensajes);
+        } catch(Exception e) {
+            mensajes = "Error al eliminar el usuario";
+            utilJsf.addErrorMessage(mensajes);
+            System.out.println("Error al eliminar el usuario:\n" + e.getMessage());
+        }
+    }
+
+    public void crearDocente() {
         try {
             docente.setUsuario(saveUsuario);
             us.create(saveUsuario);
@@ -274,11 +309,15 @@ public class UsuarioController implements Serializable {
         saveUsuario = new Usuario();
         estudiante = new Estudiante();
     }
-    
+
     public void crearAsignatura() {
         try {
-        asDao.create(asignatura);
+            asDao.create(asignatura);
+            mensajes = "Nueva asignatura creada";
+            utilJsf.addSuccessMessage(mensajes);
         } catch (Exception e) {
+            mensajes = "Error al añadir la asignatura";
+            utilJsf.addErrorMessage(mensajes);
             System.out.println("Error al añadir la asignatura:\n" + e.getMessage());
         }
         asignatura = new Asignatura();
@@ -287,13 +326,25 @@ public class UsuarioController implements Serializable {
     public void listarCursos() {
         listaCurso = cursoDao.findAll();
     }
-    
-    // Optimizar este metodo para no tener que hace una consulta a la bd para traer los datos de un estudiante seleccionado
-    // en la tabla
-    public void pasarDatosEstudiante(Long id) {
-        Query consulta = estDao.getEm().createNamedQuery("Estudiante.findByEstudianteID");
-        consulta.setParameter("estudianteID", id);
-        estudiante = (Estudiante) consulta.getSingleResult();
+
+    public void pasarDatosEstudiante(Estudiante estu) {
+        estudiante = new Estudiante();
+        estudiante = listaEstudiantes.get(listaEstudiantes.indexOf(estu));
+    }
+
+    public void editarEstudiante() {
+        try {
+            us.edit(estudiante.getUsuario());
+            estDao.edit(estudiante);
+            mensajes = "Estudiante Actualizado";
+            utilJsf.addSuccessMessage(mensajes);
+            System.out.println("Estudiante Actualizado");
+        } catch (Exception e) {
+            mensajes = "Error al actualizar el estudiante";
+            utilJsf.addErrorMessage(mensajes);
+            System.out.println("Error al actualizar el estudiante:\n" + e.getMessage());
+        }
+        estudiante = new Estudiante();
     }
 
 //    ||||||||||||||||||||||||||||||||||
@@ -497,5 +548,13 @@ public class UsuarioController implements Serializable {
 
     public void setCurso(Curso curso) {
         this.curso = curso;
+    }
+
+    public void setMensajes(String mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    public String getMensajes() {
+        return mensajes;
     }
 }
