@@ -14,7 +14,11 @@ import com.enap.modelo.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import javax.enterprise.context.spi.AlterableContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
@@ -29,6 +33,8 @@ public class UsuarioController implements Serializable {
 //    ||||||||||||||||||||||||||||||||||
 //    ||           Inyecciones        ||
 //    ||||||||||||||||||||||||||||||||||
+    @Inject
+    private BeanManager bmanager;
     @Inject
     private UsuarioDao us;
     @Inject
@@ -103,11 +109,26 @@ public class UsuarioController implements Serializable {
 
         try {
             usuario = (Usuario) consulta.getSingleResult();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("vistas/admin.xhtml");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido! " + usuario.getNombre(), "Inicio de sesion correcto"));
+            mensajes = "Bienvenido!";
+            utilJsf.addSuccessMessage(mensajes);
+            if (usuario.getTipo().equalsIgnoreCase("admin")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("vistas/admin.xhtml");
+            } else if (usuario.getTipo().equalsIgnoreCase("docente")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("vistas/docente/docente.xhtml");
+            } else if (usuario.getTipo().equalsIgnoreCase("estudiante")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("vistas/cdecurso/cdecurso.xhtml");
+            }
         } catch (NoResultException nre) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Identificacion o Contraseña Incorrectas", "Revise sus datos e intente de nuevo"));
+            mensajes = "Identificacion o Contraseña Incorrectas";
+            utilJsf.addErrorMessage(mensajes);
         }
+    }
+
+    public String logout() throws IOException {
+        AlterableContext contexto = (AlterableContext) bmanager.getContext(SessionScoped.class);
+        Bean<?> bean = bmanager.getBeans(UsuarioController.class).iterator().next();
+        contexto.destroy(bean);
+        return "index.xhtml";
     }
 
     public void btnVerUsuarios() {
@@ -269,13 +290,13 @@ public class UsuarioController implements Serializable {
         }
         usuario = new Usuario();
     }
-    
+
     public void eliminarUsuario(Usuario usu) {
         try {
             us.remove(usu);
             mensajes = "Usuario eliminado correctamente";
             utilJsf.addSuccessMessage(mensajes);
-        } catch(Exception e) {
+        } catch (Exception e) {
             mensajes = "Error al eliminar el usuario";
             utilJsf.addErrorMessage(mensajes);
             System.out.println("Error al eliminar el usuario:\n" + e.getMessage());
@@ -345,6 +366,10 @@ public class UsuarioController implements Serializable {
             System.out.println("Error al actualizar el estudiante:\n" + e.getMessage());
         }
         estudiante = new Estudiante();
+    }
+    
+    public void agregarAsignaturaEstudiante() {
+        
     }
 
 //    ||||||||||||||||||||||||||||||||||
