@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2018 a las 15:41:59
+-- Tiempo de generación: 02-11-2018 a las 17:08:28
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.7
 
@@ -42,6 +42,7 @@ CREATE TABLE `asignatura` (
 --
 
 INSERT INTO `asignatura` (`codigo`, `nombre`, `docente`, `nrohoras`, `edificio`, `aula`) VALUES
+(888, 'Programación', 51642488, 2, 'A', '101'),
 (123456, 'Álgebra Lineal', 951753654, 3, 'Alfa', '301');
 
 -- --------------------------------------------------------
@@ -111,7 +112,7 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`docenteID`, `tipoDocente`, `facultad`) VALUES
-(698436, 'Orientador', 'Ingeniería'),
+(51642488, 'DocenteOC', 'Ingeniería'),
 (87874575, 'Catedra', 'Ciencias Navales'),
 (951753654, 'catedra', 'Ciencias Básicas');
 
@@ -133,6 +134,7 @@ CREATE TABLE `estudiante` (
 
 INSERT INTO `estudiante` (`estudianteID`, `curso`, `tipoEstudiante`) VALUES
 (10101010, 101, 'estudiante'),
+(32312654, 101, 'cdecurso2'),
 (94102918503, 101, 'cdecurso1');
 
 -- --------------------------------------------------------
@@ -181,7 +183,8 @@ INSERT INTO `usuario` (`usuarioID`, `identificacion`, `contrasena`, `tipo`, `nom
 (3, 951753654, 'docente', 'docente', 'Profesor', 'Jirafales', 'jirafales@enap.edu.co'),
 (6, 94102918503, 'comandantedecurso', 'estudiante', 'Ash', 'Ketchump', 'ashk@enap.edu.co'),
 (7, 87874575, 'prueba', 'docente', 'Prueba', 'Docente', 'pb@enap.edu.co'),
-(10, 698436, 'asdksadk', 'docente', 'Marie', 'Curie', 'mcurie@enap.com');
+(11, 32312654, 'pruebaestudiante', 'estudiante', 'John', 'Doe', 'jdoe@enap.edu.co'),
+(12, 51642488, 'curienovel', 'docente', 'Marie', 'Curie', 'mcurie@nobel.org');
 
 --
 -- Índices para tablas volcadas
@@ -263,7 +266,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuarioID` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `usuarioID` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
