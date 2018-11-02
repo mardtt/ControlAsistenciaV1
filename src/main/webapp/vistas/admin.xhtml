@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sistema de Control de Asistencia</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,8 +23,7 @@
 
                 <b:navbarLinks pull="right" styleClass="hidden-xs">
                     <b:dropMenu class="top-link" value="Administrador" iconAwesome="user-circle" style="color:white">
-                        <b:navLink value="Perfíl" href="#"/>
-                        <b:navLink value="Salir" href="#"/>
+                        <b:navLink value="Salir" action="#{UsuarioController.logout()}" href="../index.xhtml"/>
                     </b:dropMenu>
                 </b:navbarLinks>
 
@@ -37,18 +35,18 @@
                         <b:accordion expanded-panels="menuInfo,menuAgregar">
                             <b:panel class="side-menu" id="menuInfo" title="Ver Información" iconAwesome="eye">
                                 <b:listLinks class="side-item">
-                                    <b:navCommandLink value="Usuarios" action="#{UsuarioController.btnVerUsuarios()}"/>
-                                    <b:navCommandLink value="Docentes" action="#{UsuarioController.btnVerDocentes()}"/>
-                                    <b:navCommandLink value="Estudiantes" action="#{UsuarioController.btnVerEstudiantes()}"/>
-                                    <b:navCommandLink value="Asignaturas" action="#{UsuarioController.btnVerAsignaturas()}"/>
+                                    <b:navCommandLink value="Usuarios" action="#{UsuarioController.btnVerUsuarios()}" ajax="false"/>
+                                    <b:navCommandLink value="Docentes" action="#{UsuarioController.btnVerDocentes()}" ajax="false"/>
+                                    <b:navCommandLink value="Estudiantes" action="#{UsuarioController.btnVerEstudiantes()}" ajax="false"/>
+                                    <b:navCommandLink value="Asignaturas" action="#{UsuarioController.btnVerAsignaturas()}" ajax="false"/>
                                 </b:listLinks>
                             </b:panel>
                             <b:panel class="side-menu" id="menuAgregar" title="Formularios" iconAwesome="pencil-square-o">
                                 <b:listLinks class="side-item">
                                     <b:navCommandLink value="Usuarios" actionListener="#{UsuarioController.btnVerFormUsuario()}"
-                                                      update="formPrincipal"/>
+                                                      update="formPrincipal" ajax="false"/>
                                     <b:navCommandLink value="Cursos"  href="#"/>
-                                    <b:navCommandLink value="Asignaturas" actionListener="#{UsuarioController.btnVerFormAsignatura()}" update="formPrincipal"/>                                    
+                                    <b:navCommandLink value="Asignaturas" actionListener="#{UsuarioController.btnVerFormAsignatura()}" update="formPrincipal" ajax="false"/>                                    
                                 </b:listLinks>
                             </b:panel>
                         </b:accordion>

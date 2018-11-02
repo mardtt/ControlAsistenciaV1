@@ -9,7 +9,7 @@
     <h:body>
         <h:outputStylesheet library="css" name="login.css"/>
         <h:form>
-            <h:message for="btnLogin"/>
+            <b:growl id="mensajes" placementFrom="top" allowDismiss="true" delay="10000" escape="true" show-detail="true" show-summary="false"/>
             <b:container fluid="true">
                 <b:row>
                     <b:panel class="encabezado">
@@ -42,7 +42,7 @@
                                 <h:link value="Restablecer Contraseña"/>                                
                             </b:row>
                             <b:row class="contenedorB">
-                                <b:commandButton id="btnLogin" value="Entrar" action="#{UsuarioController.login()}" class="btnLogin"/>
+                                <b:commandButton id="btnLogin" value="Entrar" actionListener="#{UsuarioController.login()}" class="btnLogin"/>
                             </b:row>
                         </b:panel>
                     </b:column>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        <h:outputStylesheet library="css" name="cdecurso.css"/>
+        
+        <h:form>
+             <b:growl id="mensajes" placementFrom="top" allowDismiss="true" delay="10000" escape="true" show-detail="true" show-summary="false"/>
+
+            <b:navBar class="top-nav" brand="ENAP" brand-img="../../resources/images/logo_enap.png" 
+                      fluid="true" fixed="top" brand-href="./admin.xhtml">  
+                <div class="hidden-xs" style="text-align: center">
+                    <h:outputText value="Sistema de Control de Asistencía" class="titulo"/>
+                </div>
+
+                <b:navbarLinks pull="right" styleClass="hidden-xs">
+                    <b:dropMenu class="top-link" value="Comandante de Curso" iconAwesome="user-circle" style="color:white">
+                        <h:commandLink action="#{UsuarioController.logout()}" value="Salir"/>
+                    </b:dropMenu>
+                </b:navbarLinks>
+
+                <b:container id="container-left" class="side-nav">
+                    <b:row style="text-align: center;background-color: #444444">
+                        <h:outputText value="MENÚ PRINCIPAL" class="menutitulo"/>
+                    </b:row>
+                    <b:row>
+                        <b:accordion expanded-panels="menuInfo,menuAgregar">
+                            <b:panel class="side-menu" id="menuInfo" title="Partes" iconAwesome="tasks">
+                                <b:listLinks class="side-item">
+                                    <b:navCommandLink value="Parte Diario" action="#" ajax="false" iconAwesome="file-text"/>
+                                    <b:navCommandLink value="Historial" action="#" ajax="false" iconAwesome="list-alt"/>
+                                </b:listLinks>
+                            </b:panel>
+                        </b:accordion>
+                    </b:row>
+                </b:container>                
+            </b:navBar>
+             <b:container id="container-right" fluid="true">
+                 
+             </b:container>
+        </h:form>
+    </h:body>
+</html>
+
